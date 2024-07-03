@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_1sdvcz2" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Web Modeler" exporterVersion="54e0234" camunda:diagramRelationId="ed7a0e9c-a0b5-4358-a9dd-a700e9916d0f" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0">
+  <decision id="dishDecision" name="Dish">
+    <decisionTable id="DecisionTable_1d010w9" hitPolicy="PRIORITY">
+      <input id="InputClause_13b3zyg" label="Season">
+        <inputExpression id="LiteralExpression_0p7t8s4" typeRef="string">
+          <text>season</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_03qb835">
+          <text>"winter","autumn","spring","summer"</text>
+        </inputValues>
+      </input>
+      <input id="InputClause_149h85a" label="Vegetarian option">
+        <inputExpression id="LiteralExpression_1qxcp6b" typeRef="boolean">
+          <text>vegetarian</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0lsz5fo" label="Dish" name="dish" typeRef="string" />
+      <rule id="DecisionRule_1mlvoed">
+        <inputEntry id="UnaryTests_1rp2h4e">
+          <text>"winter"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0tzkj8s">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1j8eaa9">
+          <text>"Roasted duck"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_07zcv57">
+        <inputEntry id="UnaryTests_0wh86po">
+          <text>"autumn"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0eganwr">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0l0mlbt">
+          <text>"Potato pancakes"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1gg23f9">
+        <inputEntry id="UnaryTests_0omehv8">
+          <text>"spring"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03awqmd">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1tmk2u4">
+          <text>"Spring rolls"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1wrweta">
+        <inputEntry id="UnaryTests_09egsef">
+          <text>"summer"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14qzben">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0de1y2j">
+          <text>"Fish and chips"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_09mc40p">
+        <inputEntry id="UnaryTests_1uopanr">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1jr8utp">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_17a85gq">
+          <text>"Salad with olives"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape id="DMNShape_17lyyhs" dmnElementRef="dishDecision">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

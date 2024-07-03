@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_1o0nysd" name="Exercise4DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Web Modeler" exporterVersion="54e0234" camunda:diagramRelationId="801c01c9-1360-4a43-a595-2b052830953a" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0">
+  <decision id="additionalBackgroundCheck" name="Exercise 4">
+    <decisionTable id="DecisionTable_1aw52de" hitPolicy="FIRST">
+      <input id="Input_1" label="Known Customer">
+        <inputExpression id="InputExpression_1" typeRef="boolean">
+          <text>knownCustomer</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_08xib2h" label="Employment">
+        <inputExpression id="LiteralExpression_0oi2e8g" typeRef="string">
+          <text>employment</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_1litaia">
+          <text>"self-employed","unemployed","employed","retired"</text>
+        </inputValues>
+      </input>
+      <input id="InputClause_1j9amij" label="Loan Amount">
+        <inputExpression id="LiteralExpression_1jx567a" typeRef="number">
+          <text>loanAmount</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Additional Background Check" name="additionalBackgroundCheckNeeded" typeRef="boolean" />
+      <rule id="DecisionRule_075hrcj">
+        <inputEntry id="UnaryTests_1w1oeye">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16rj57u">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01x84rw">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_083k5eg">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0icz142">
+        <inputEntry id="UnaryTests_10dt143">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wx824j">
+          <text>"self-employed","unemployed"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1vspron">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0pg0nbz">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0mxrtu9">
+        <inputEntry id="UnaryTests_09do8dp">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qzouis">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01obhel">
+          <text>&gt;10000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_03tlkt0">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0w7bp3q">
+        <inputEntry id="UnaryTests_0r0m9cf">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01w8bft">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kh6vo8">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1dpurfx">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="additionalBackgroundCheck">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
