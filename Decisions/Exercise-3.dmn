@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="CarLoanDRD" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.5.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0">
   <inputData id="InputData_07aapu4" name="Credit Score" />
-  <decision id="carLoanGranting" name="Car Loan Granting">
+  <inputData id="InputData_1s8cqfe" name="Borrowers Income" />
+  <inputData id="InputData_10df8gs" name="Installment Rate" />
+  <inputData id="InputData_1gjhn2n" name="Expenses" />
+  <decision id="Decision_cktbihu" name="Car Loan Granting">
     <informationRequirement id="InformationRequirement_06m9kty">
-      <requiredDecision href="#riskLevel" />
+      <requiredDecision href="#Decision_vdxau3p" />
     </informationRequirement>
-    <informationRequirement id="InformationRequirement_04j6vxd">
-      <requiredInput href="#InputData_0cjtcrd" />
+    <informationRequirement id="InformationRequirement_1iaryxd">
+      <requiredDecision href="#Decision_jfulf3p" />
     </informationRequirement>
     <decisionTable id="DecisionTable_0w2fio6" hitPolicy="FIRST">
       <input id="InputClause_0b7smav" label="Risk Level">
@@ -83,7 +86,7 @@
       </rule>
     </decisionTable>
   </decision>
-  <decision id="riskLevel" name="Risk Level">
+  <decision id="Decision_vdxau3p" name="Risk Level">
     <informationRequirement id="InformationRequirement_0blrw9v">
       <requiredInput href="#InputData_07aapu4" />
     </informationRequirement>
@@ -124,13 +127,73 @@
       </rule>
     </decisionTable>
   </decision>
-  <inputData id="InputData_0cjtcrd" name="Affordability" />
+  <decision id="Decision_jfulf3p" name="Affordability">
+    <informationRequirement id="InformationRequirement_1amsimd">
+      <requiredDecision href="#Decision_niiej11" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_07lutod">
+      <input id="InputClause_0yo0ema" label="Debt2IncomeRatio">
+        <inputExpression id="LiteralExpression_15194ta" typeRef="number">
+          <text>debt2IncomeRatio</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_195ev3j" label="Affordability" name="affordabilityVar" typeRef="string">
+        <outputValues id="UnaryTests_1mlx7e9">
+          <text>"affordable","marginal","unaffordable"</text>
+        </outputValues>
+      </output>
+      <rule id="DecisionRule_14kfqh7">
+        <inputEntry id="UnaryTests_1wboajs">
+          <text>&lt;50</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1fcc2gm">
+          <text>"affordable"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ufsua9">
+        <inputEntry id="UnaryTests_1wk0ze6">
+          <text>[50..75[</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_08q6an5">
+          <text>"marginal"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1tx0kuv">
+        <inputEntry id="UnaryTests_1ontoci">
+          <text>&gt;=75</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1sitw5s">
+          <text>"unaffordable"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="Decision_niiej11" name="Debt to Remaining Income Ratio">
+    <variable id="InformationItem_0ppjkzr" name="debt2IncomeRatio" typeRef="number" />
+    <informationRequirement id="InformationRequirement_0bj3msq">
+      <requiredInput href="#InputData_10df8gs" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0lk1j8u">
+      <requiredInput href="#InputData_1s8cqfe" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_02ycgdn">
+      <requiredInput href="#InputData_1gjhn2n" />
+    </informationRequirement>
+    <literalExpression id="LiteralExpression_049h5q8" expressionLanguage="feel">
+      <text>installmentRate / (borrowersIncome - expenses) * 100</text>
+    </literalExpression>
+  </decision>
   <dmndi:DMNDI>
     <dmndi:DMNDiagram>
       <dmndi:DMNEdge id="DMNEdge_0mf6kej" dmnElementRef="InformationRequirement_06m9kty">
         <di:waypoint x="250" y="240" />
         <di:waypoint x="370" y="180" />
         <di:waypoint x="370" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_02rn974" dmnElementRef="InformationRequirement_1iaryxd">
+        <di:waypoint x="520" y="240" />
+        <di:waypoint x="430" y="180" />
+        <di:waypoint x="430" y="160" />
       </dmndi:DMNEdge>
       <dmndi:DMNShape id="DMNShape_0p7idx8" dmnElementRef="InputData_07aapu4">
         <dc:Bounds height="45" width="125" x="187" y="417" />
@@ -140,19 +203,46 @@
         <di:waypoint x="250" y="340" />
         <di:waypoint x="250" y="320" />
       </dmndi:DMNEdge>
-      <dmndi:DMNShape id="DMNShape_1pggxwk" dmnElementRef="carLoanGranting">
+      <dmndi:DMNEdge id="DMNEdge_10615u9" dmnElementRef="InformationRequirement_1amsimd">
+        <di:waypoint x="520" y="400" />
+        <di:waypoint x="520" y="340" />
+        <di:waypoint x="520" y="320" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_167duxq" dmnElementRef="InputData_1s8cqfe">
+        <dc:Bounds height="45" width="125" x="287" y="577" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1xj4w7j" dmnElementRef="InputData_10df8gs">
+        <dc:Bounds height="45" width="125" x="617" y="577" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0y9vma6" dmnElementRef="InformationRequirement_0bj3msq">
+        <di:waypoint x="680" y="577" />
+        <di:waypoint x="565" y="500" />
+        <di:waypoint x="565" y="480" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0uj06vz" dmnElementRef="InputData_1gjhn2n">
+        <dc:Bounds height="45" width="125" x="457" y="577" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1pggxwk" dmnElementRef="Decision_cktbihu">
         <dc:Bounds height="80" width="180" x="310" y="80" />
       </dmndi:DMNShape>
-      <dmndi:DMNShape id="DMNShape_0xmdwxo" dmnElementRef="riskLevel">
+      <dmndi:DMNShape id="DMNShape_0xmdwxo" dmnElementRef="Decision_vdxau3p">
         <dc:Bounds height="80" width="180" x="160" y="240" />
       </dmndi:DMNShape>
-      <dmndi:DMNShape id="DMNShape_151kl8h" dmnElementRef="InputData_0cjtcrd">
-        <dc:Bounds height="45" width="125" x="468" y="248" />
+      <dmndi:DMNShape id="DMNShape_097ps61" dmnElementRef="Decision_jfulf3p">
+        <dc:Bounds height="80" width="180" x="430" y="240" />
       </dmndi:DMNShape>
-      <dmndi:DMNEdge id="DMNEdge_0oh4vcv" dmnElementRef="InformationRequirement_04j6vxd">
-        <di:waypoint x="531" y="248" />
-        <di:waypoint x="430" y="180" />
-        <di:waypoint x="430" y="160" />
+      <dmndi:DMNShape id="DMNShape_1wpeeg0" dmnElementRef="Decision_niiej11">
+        <dc:Bounds height="80" width="180" x="430" y="400" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1d5t2m7" dmnElementRef="InformationRequirement_0lk1j8u">
+        <di:waypoint x="350" y="577" />
+        <di:waypoint x="475" y="500" />
+        <di:waypoint x="475" y="480" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1px1poy" dmnElementRef="InformationRequirement_02ycgdn">
+        <di:waypoint x="520" y="577" />
+        <di:waypoint x="520" y="500" />
+        <di:waypoint x="520" y="480" />
       </dmndi:DMNEdge>
     </dmndi:DMNDiagram>
   </dmndi:DMNDI>
